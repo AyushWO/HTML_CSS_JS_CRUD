@@ -17,66 +17,48 @@
       </div>
     </header>
     <div id="divForm">
-      <form onsubmit="submitForm(event)" autocomplete="off">
+      <form onclick="validationMessage()"; onsubmit="submitForm(event)" autocomplete="off">
         <h1><u>Registration Form</u></h1>
         <hr />
+        <p class="id1">ID:</p>
+        <input name="id" id="id" placeholder="Type here..." />
+        <br>
+        <small id="errorId"></small>
+        <hr>
         <p class="name1">Name:</p>
         <input type="text" name="name" id="name" placeholder="Type here..." />
-        <br />
+        <br>
         <small id="errorName"></small>
         <hr />
         <p>Skills:</p>
-        <input class="skills" name="skills" type="checkbox" value="HTML" />HTML
-        &nbsp;&nbsp;
-        <input class="skills" name="skills" type="checkbox" value="CSS" />CSS
-        &nbsp;&nbsp;
-        <input
-          class="skills"
-          name="skills"
-          type="checkbox"
-          value="JavaScript"
-        />JavaScript &nbsp;&nbsp;
-        <input
-          class="skills"
-          name="skills"
-          type="checkbox"
-          value="Angular"
-        />Angular &nbsp;&nbsp;
-        <input
-          class="skills"
-          name="skills"
-          type="checkbox"
-          value="React"
-        />React &nbsp;&nbsp;
+        <input class="skills" name="skills" type="checkbox" value="HTML" />HTML &nbsp;&nbsp;
+        <input class="skills" name="skills" type="checkbox" value="CSS" />CSS &nbsp;&nbsp;
+        <input class="skills" name="skills" type="checkbox" value="JavaScript" />JavaScript &nbsp;&nbsp;
+        <input class="skills" name="skills" type="checkbox" value="Angular" />Angular &nbsp;&nbsp;
+        <input class="skills" name="skills" type="checkbox" value="React" />React &nbsp;&nbsp;
+        <br>
+        <small id="errorSkills"></small>
         <hr />
-        <p class="name1">Salary:</p>
-        <input
-          type="number"
-          name="salary"
-          id="salary"
-          placeholder="Type here..."
-          pattern="\d{1,15}"
-        /><br />
+        <p class="salary1">Salary:</p>
+        <input type="number" name="salary" id="salary" placeholder="Type here..." pattern="\d{1,15}" />
+        <br>
         <small id="errorSalary"></small>
         <hr />
-        <p>Date of Birth (DOB):</p>
-        <input
-          name="dob"
-          id="dob"
-          onfocus="this.max=new Date().toISOString().split('T')[0]"
-          type="date"
-        /><br />
+        <p class="dob1">Date of Birth (DOB):</p>
+        <input name="dob" id="dob" onclick= return getAge(); onfocus="this.max=new Date().toISOString().split('T')[0]" type="date" />
+        
         <small id="errorDob"></small>
         <br />
         <button type="submit" id="btn1">Insert</button>
       </form>
     </div>
-
+    <hr><hr>
     <div id="divreadAll">
-      <u><h1 id="AllDataHeading">Here's your data:</h1></u>
+      <u><h1 id="AllDataHeading">Here's Your Data</h1></u>
       <table>
         <thead>
           <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Skills</th>
             <th>Salary</th>
