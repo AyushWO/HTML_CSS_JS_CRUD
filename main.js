@@ -1,60 +1,63 @@
 function submitForm(event) {
   event.preventDefault();
-  if (getAge()) {
-    const id = document.getElementById("id").value;
+  const valid = validateForm();
+  if (valid) {
+    const id = document.getElementById("id").value = Math.floor(Math.random() * Date.now());
     const name = document.getElementById("name").value;
     const skills = getSelectedSkills();
     const salary = document.getElementById("salary").value;
     const dob = document.getElementById("dob").value;
-    validationMessage('id');
-    validationMessage('name');
-    validationMessage('salary');
-    validationMessage('dob');
-    if (name && salary && dob) {
-      const employee = {
-        id: id,
-        name: name,
-        skills: skills,
-        salary: salary,
-        dob: dob,
-      };
 
-      addOrUpdateEmployee(employee);
-      clearForm();
-    }
+    const employee = {
+      id: id,
+      name: name,
+      skills: skills,
+      salary: salary,
+      dob: dob,
+    };
+
+    addOrUpdateEmployee(employee);
+    clearForm();
   }
 }
 
-function validationMessage(inputId) {
-  let errorMessage = "";
-
-  if (inputId === "id") {
-    const id = document.getElementById("id").value;
-    if (id === "" || id === null || !/^\d+$/.test(id)) {
-      errorMessage = "(Please Enter Id with Digits)";
-    }
-    document.getElementById("errorId").innerHTML = errorMessage;
-  } else if (inputId === "name") {
-    const name = document.getElementById("name").value;
-    if (name === "" || /\d/.test(name)) {
-      errorMessage = "(Please Enter Name without Numbers)";
-    }
-    document.getElementById("errorName").innerHTML = errorMessage;
-  } else if (inputId === "salary") {
-    const salary = document.getElementById("salary").value;
-    if (salary === "" || isNaN(salary)) {
-      errorMessage = "(Please Enter Salary)";
-    }
-    document.getElementById("errorSalary").innerHTML = errorMessage;
-  } else if (inputId === "dob") {
-    const dob = document.getElementById("dob").value;
-    if (dob === "") {
-      errorMessage = "(Please Enter Date of Birth)";
-    }
-    document.getElementById("errorDob").innerHTML = errorMessage;
+function validateForm() {
+  let isValid = true;
+  
+  const name = document.getElementById("name").value;
+  const errorName = document.getElementById("errorName");
+  if (name === "" || /\d/.test(name)) {
+    errorName.textContent = "(Please Enter Name without Numbers)";
+    isValid = false;
+  } else {
+    errorName.textContent = "";
   }
 
-  return errorMessage;
+  const salary = document.getElementById("salary").value;
+  const errorSalary = document.getElementById("errorSalary");
+  if (salary === "" || isNaN(salary)) {
+    errorSalary.textContent = "(Please Enter Salary)";
+    isValid = false;
+  } else {
+    errorSalary.textContent = "";
+  }
+
+  const dob = document.getElementById("dob").value;
+  const errorDob = document.getElementById("errorDob");
+  if (dob === "") {
+    errorDob.textContent = "(Please Enter Date of Birth)";
+    isValid = false;
+  } else {
+    const ageValid = getAge();
+    if (!ageValid) {
+      errorDob.textContent = "Age should be 18 or above.";
+      isValid = false;
+    } else {
+      errorDob.textContent = "";
+    }
+  }
+
+  return isValid;
 }
 
 function getAge() {
@@ -62,12 +65,20 @@ function getAge() {
   const dateString = document.getElementById("dob").value;
 
   const parts = dateString.split("-");
-  const dtDOB = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+  const dtDOB = new Date(
+    parseInt(parts[0]),
+    parseInt(parts[1]) - 1,
+    parseInt(parts[2])
+  );
   const dtCurrent = new Date();
   let age = dtCurrent.getFullYear() - dtDOB.getFullYear();
 
-  if (dtCurrent.getMonth() < dtDOB.getMonth() || (dtCurrent.getMonth() === dtDOB.getMonth() && dtCurrent.getDate() < dtDOB.getDate())) {
-    age--; 
+  if (
+    dtCurrent.getMonth() < dtDOB.getMonth() ||
+    (dtCurrent.getMonth() === dtDOB.getMonth() &&
+      dtCurrent.getDate() < dtDOB.getDate())
+  ) {
+    age--;
   }
 
   if (age < 18) {
@@ -79,10 +90,11 @@ function getAge() {
   }
 }
 
-
 function getSelectedSkills() {
   const skills = [];
-  const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  const checkboxes = document.querySelectorAll(
+    'input[type="checkbox"]:checked'
+  );
   checkboxes.forEach((checkbox) => {
     skills.push(checkbox.value);
   });
@@ -107,7 +119,7 @@ function addOrUpdateEmployee(employee) {
   if (!existingEmployee) {
     const row = tableBody.insertRow();
     row.innerHTML = `
-       <td>${employee.id}</td>
+       <td style="display: none;">${employee.id}</td>
        <td>${employee.name}</td>
        <td>${employee.skills.join(", ")}</td>
        <td>${employee.salary}</td>
@@ -142,9 +154,11 @@ function loadFromLocalStorage() {
 function clearForm() {
   document.getElementById("id").value = "";
   document.getElementById("name").value = "";
-  document.querySelectorAll('input[type="checkbox"]:checked').forEach((checkbox) => {
-    checkbox.checked = false;
-  });
+  document
+    .querySelectorAll('input[type="checkbox"]:checked')
+    .forEach((checkbox) => {
+      checkbox.checked = false;
+    });
   document.getElementById("salary").value = "";
   document.getElementById("dob").value = "";
 }
@@ -180,15 +194,17 @@ function updateEmployee(id) {
       document.getElementById("salary").value = row.cells[3].textContent;
       document.getElementById("dob").value = row.cells[4].textContent;
 
-      document.getElementById("headingInsertOrUpdate").innerHTML = "<u>Updating Form</u>";
-      document.getElementById("btn1").innerHTML = "Update";
-      document.getElementById("btn1").setAttribute("onclick", `updateEmployeeData(${id})`);
+      document.getElementById("headingInsertOrUpdate").innerHTML =
+        "<u>Updating Form</u>";
+      document.getElementById("btn1").style.display = "none";
+      document.getElementById("btnUpdate").style.display = "inline";
+      document.getElementById("btnInsert").style.display = "inline";
     }
   });
 }
 
-
-function updateEmployeeData(id) {
+function updateEmployeeData() {
+  const id = document.getElementById("id").value;
   const name = document.getElementById("name").value;
   const skills = getSelectedSkills();
   const salary = document.getElementById("salary").value;
@@ -206,10 +222,21 @@ function updateEmployeeData(id) {
     addOrUpdateEmployee(employee);
     clearForm();
 
-    document.getElementById("headingInsertOrUpdate").innerHTML = "<u>Registration Form</u>";
-    document.getElementById("btn1").innerHTML = "Insert";
-    document.getElementById("btn1").setAttribute("onclick", "submitForm(event)");
+    document.getElementById("headingInsertOrUpdate").innerHTML =
+      "<u>Registration Form</u>";
+    document.getElementById("btn1").style.display = "inline";
+    document.getElementById("btnUpdate").style.display = "none";
+    document.getElementById("btnInsert").style.display = "none";
   }
+}
+
+function insertEmployee() {
+  clearForm();
+  document.getElementById("headingInsertOrUpdate").innerHTML =
+    "<u>Registration Form</u>";
+  document.getElementById("btn1").style.display = "inline";
+  document.getElementById("btnUpdate").style.display = "none";
+  document.getElementById("btnInsert").style.display = "none";
 }
 
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
