@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Employee Management</title>
     <link rel="stylesheet" href="mystyle.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
     <header>
@@ -17,8 +18,8 @@
       </div>
     </header>
     <div id="divForm">
-      <form onclick="validationMessage()"; onsubmit="submitForm(event)" autocomplete="off">
-        <h1><u>Registration Form</u></h1>
+      <form onsubmit="submitForm(event)" autocomplete="off">
+        <h1 id="headingInsertOrUpdate"><u>Registration Form</u></h1>
         <hr />
         <p class="id1">ID:</p>
         <input name="id" id="id" placeholder="Type here..." />
@@ -31,13 +32,12 @@
         <small id="errorName"></small>
         <hr />
         <p>Skills:</p>
-        <input class="skills" name="skills" type="checkbox" value="HTML" />HTML &nbsp;&nbsp;
-        <input class="skills" name="skills" type="checkbox" value="CSS" />CSS &nbsp;&nbsp;
-        <input class="skills" name="skills" type="checkbox" value="JavaScript" />JavaScript &nbsp;&nbsp;
-        <input class="skills" name="skills" type="checkbox" value="Angular" />Angular &nbsp;&nbsp;
-        <input class="skills" name="skills" type="checkbox" value="React" />React &nbsp;&nbsp;
+        <input class="skills" id="htmlSkill" name="skills" type="checkbox" value="HTML" />HTML &nbsp;&nbsp;
+        <input class="skills" id="cssSkill" name="skills" type="checkbox" value="CSS" />CSS &nbsp;&nbsp;
+        <input class="skills" id="jsSkill" name="skills" type="checkbox" value="JavaScript" />JavaScript &nbsp;&nbsp;
+        <input class="skills" id="angularSkill" name="skills" type="checkbox" value="Angular" />Angular &nbsp;&nbsp;
+        <input class="skills" id="reactSkill" name="skills" type="checkbox" value="React" />React &nbsp;&nbsp;
         <br>
-        <small id="errorSkills"></small>
         <hr />
         <p class="salary1">Salary:</p>
         <input type="number" name="salary" id="salary" placeholder="Type here..." pattern="\d{1,15}" />
@@ -46,13 +46,17 @@
         <hr />
         <p class="dob1">Date of Birth (DOB):</p>
         <input name="dob" id="dob" onclick= return getAge(); onfocus="this.max=new Date().toISOString().split('T')[0]" type="date" />
-        
+        <br>
         <small id="errorDob"></small>
-        <br />
+        <br /><br>
         <button type="submit" id="btn1">Insert</button>
       </form>
     </div>
+
+
     <hr><hr>
+
+    
     <div id="divreadAll">
       <u><h1 id="AllDataHeading">Here's Your Data</h1></u>
       <table>
@@ -70,16 +74,11 @@
       </table>
     </div>
 
-    <div id="divupdateEmployee">
-      <u><h1 id="AllDataHeading"></h1></u>
-      <table>
-        <tbody id="tableRow"></tbody>
-      </table>
-    </div>
-
     <footer>
       <div id="footerDiv"></div>
     </footer>
+
     <script src="main.js"></script>
+
   </body>
 </html>

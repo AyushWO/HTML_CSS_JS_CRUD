@@ -130,14 +130,21 @@ tfoot {
 }
 
 small{
+  font-family: Helvetica, Arial, sans-serif;
   color: red;
+  background-color: #fce4e4;
+  border: 1px solid #f9f9f9;
 }
 
-.btnJS{
+.btnJS{  /* it is in the js page */
   background-color: rgb(255, 153, 0);
   color: white; 
   padding: 10px 20px; 
   border: none; 
   border-radius: 4px; 
   cursor: pointer;
+}
+
+.btnJS:hover{
+  background-color: rgb(231, 144, 12);
 }
