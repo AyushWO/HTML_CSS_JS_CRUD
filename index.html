@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Management</title>
+  <link rel="stylesheet" href="mystyle.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <header>
+    <div id="headerDiv">
+      <img id="logo1" src="logo1.jpg" alt="not_working" />
+      <p id="p_about"><a href="#">About</a></p>
+      <p id="p_page1"><a href="#">Page1</a></p>
+      <p id="p_page2"><a href="#">Page2</a></p>
+      <p id="p_home"><a href="#">Home</a></p>
+    </div>
+  </header>
+  <div id="divForm">
+    <form onsubmit="submitForm(event)" autocomplete="off">
+      <h1 id="headingInsertOrUpdate"><u>Registration Form</u></h1>
+      <hr />
+      <input type="hidden" name="id" id="id" placeholder="Type here..." />
+      <p class="name1">Name:</p>
+      <input type="text" name="name" id="name" placeholder="Type here..." />
+      <br>
+      <small id="errorName"></small>
+      <hr />
+      <p>Skills:</p>
+      <input class="skills" id="htmlSkill" name="skills" type="checkbox" value="HTML" />HTML &nbsp;&nbsp;
+      <input class="skills" id="cssSkill" name="skills" type="checkbox" value="CSS" />CSS &nbsp;&nbsp;
+      <input class="skills" id="jsSkill" name="skills" type="checkbox" value="JavaScript" />JavaScript &nbsp;&nbsp;
+      <input class="skills" id="angularSkill" name="skills" type="checkbox" value="Angular" />Angular &nbsp;&nbsp;
+      <input class="skills" id="reactSkill" name="skills" type="checkbox" value="React" />React &nbsp;&nbsp;
+      <br>
+      <hr />
+      <p class="salary1">Salary:</p>
+      <input type="number" name="salary" id="salary" placeholder="Type here..." pattern="\d{1,15}" />
+      <br>
+      <small id="errorSalary"></small>
+      <hr />
+      <p class="dob1">Date of Birth (DOB):</p>
+      <input name="dob" id="dob" onclick= return getAge(); onfocus="this.max=new Date().toISOString().split('T')[0]" type="date" />
+      <br>
+      <small id="errorDob"></small>
+      <br /><br>
+      <button type="submit" id="btn1">Insert</button> &nbsp; <button type="button" id="btnClearinsert" onclick="clearForm()" >Clear</button>
+      <br>
+      <button type="button" id="btnUpdate" style="display: none;" onclick="updateEmployeeData()">Update</button> 
+      <button type="button" id="btnInsert" style="display: none;" onclick="insertEmployee()">Cancel</button>
+    </form>
+  </div>
+
+  <hr><hr>
+  <br><br><br><br><br><br><br><br>
+
+  <div id="divreadAll">
+    <u><h1 id="AllDataHeading">Here's Your Data</h1></u>
+    <table>
+      <thead>
+        <tr>
+          <th style="display: none;">ID</th>
+          <!-- <th>ID</th> -->
+          <th>Name</th>
+          <th>Skills</th>
+          <th>Salary</th>
+          <th>Date of Birth</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <hr><hr>
+  <br><br><br><br><br><br><br><br>
+
+  <div id="readAllVirticle">
+    <u><h1 id="AllDataHeading">Here's Your Advance Table</h1></u>
+    <table>
+      <thead>
+        <!-- <th scope="row">Name</th>
+        <th scope="row">Skills</th>
+        <th scope="row">Salary</th>
+        <th scope="row">Date of Birth</th>
+        <th scope="row">Action</th> -->
+      </thead>
+      <tbody id="advanceTableBody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    <div id="footerDiv"></div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>
