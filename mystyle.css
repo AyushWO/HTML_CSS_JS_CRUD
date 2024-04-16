@@ -1,39 +1,28 @@
-/* Your CSS styles here */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-p{
+p {
   display: inline-block;
 }
 
-#p_about{
+.header_iteams {
+  padding-right: 50px;
+}
+
+#p_about {
   height: 50px;
-  padding-right: 50px;
 }
 
-#p_page1{
-  padding-right: 50px;
-}
-
-#p_page2{
-  padding-right: 50px;
-}
-
-#p_home{
-  padding-right: 50px;
-}
-
-#logo1{
+#logo1 {
   height: 50px;
-  padding-right: 1430px ;
+  padding-right: 1430px;
   margin-right: 10px;
 }
 
 header {
-  background-color: #f0f0f0;
   padding: 5px;
   background-color: #45a049;
 }
@@ -55,9 +44,11 @@ header {
   padding: 20px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
+  margin-bottom: 70px;
 }
 
-#divForm, h1 {
+#divForm,
+h1 {
   text-align: center;
 }
 
@@ -66,7 +57,7 @@ header {
   margin-bottom: 10px;
 }
 
-.name1 {
+.nameParagraph {
   margin-top: 10px;
 }
 
@@ -74,8 +65,16 @@ header {
   margin-right: 10px;
 }
 
-#btn1 {
-  background-color: #4CAF50;
+#btnUpdate {
+  display: none;
+}
+
+#btnInsert {
+  display: none;
+}
+
+.greanButton {
+  background-color: #4caf50;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -83,60 +82,11 @@ header {
   cursor: pointer;
 }
 
-#btnUpdate{
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#btnInsert{
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#btnClearinsert{
-  background-color: #4CAF50;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#btn1:hover {
+.greanButton:hover{
   background-color: #45a049;
 }
 
-#btnUpdate:hover {
-  background-color: #45a049;
-}
-
-#btnInsert:hover {
-  background-color: #45a049;
-}
-
-#btnClearinsert:hover {
-  background-color: #45a049;
-}
-
-#divreadAll {
-  width: 80%;
-  margin: 20px auto;
-}
-
-#readAllVirticle{
-  width: 80%;
-  margin: 20px auto;
-}
-
-#divupdateEmployee{
+.divElements {
   width: 80%;
   margin: 20px auto;
 }
@@ -151,7 +101,8 @@ table {
   border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -174,22 +125,23 @@ tfoot {
   margin-top: 20px auto;
 }
 
-small{
+small {
   font-family: Helvetica, Arial, sans-serif;
   color: red;
   background-color: #fce4e4;
   border: 1px solid #f9f9f9;
 }
 
-.btnJS{  /* it is in the js page */
+.btnJS {
+  /* it is in the js page */
   background-color: rgb(255, 153, 0);
-  color: white; 
-  padding: 10px 20px; 
-  border: none; 
-  border-radius: 4px; 
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.btnJS:hover{
+.btnJS:hover {
   background-color: rgb(231, 144, 12);
 }
