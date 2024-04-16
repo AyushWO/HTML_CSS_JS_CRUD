@@ -2,32 +2,32 @@ function submitForm(event) {
   event.preventDefault();
   const valid = validateForm();
   if (valid) {
-    const id = document.getElementById("id").value = Math.floor(Math.random() * Date.now());
+    const id = Math.floor(Math.random() * Date.now());
     const name = document.getElementById("name").value;
     const skills = getSelectedSkills();
     const salary = document.getElementById("salary").value;
     const dob = document.getElementById("dob").value;
 
     const employee = {
-      id: id,
+      id: id.toString(),
       name: name,
       skills: skills,
       salary: salary,
       dob: dob,
     };
 
-    addOrUpdateEmployee(employee);
+    updateLocalStorage(employee);
     clearForm();
-    updateAdvanceTable();   //yaha hojayega update, nahi chal raha
+    updateAdvanceTable();
   }
 }
 
 function validateForm() {
   let isValid = true;
-  
+
   const name = document.getElementById("name").value;
   const errorName = document.getElementById("errorName");
-  if (name === "" || /\d/.test(name)) {
+  if (name === "" || /\d/.test(name) || name==null || name==undefined) {
     errorName.textContent = "(Please Enter Name without Numbers)";
     isValid = false;
   } else {
@@ -36,7 +36,7 @@ function validateForm() {
 
   const salary = document.getElementById("salary").value;
   const errorSalary = document.getElementById("errorSalary");
-  if (salary === "" || isNaN(salary)) {
+  if (salary === "" || isNaN(salary || salary==null || salary==undefined)) {
     errorSalary.textContent = "(Please Enter Salary)";
     isValid = false;
   } else {
@@ -45,7 +45,7 @@ function validateForm() {
 
   const dob = document.getElementById("dob").value;
   const errorDob = document.getElementById("errorDob");
-  if (dob === "") {
+  if (dob === ""  || dob==null || dob==undefined) {
     errorDob.textContent = "(Please Enter Date of Birth)";
     isValid = false;
   } else {
@@ -113,7 +113,6 @@ function addOrUpdateEmployee(employee) {
       row.cells[3].textContent = employee.salary;
       row.cells[4].textContent = employee.dob;
       existingEmployee = true;
-      updateLocalStorage();
     }
   });
 
@@ -125,32 +124,44 @@ function addOrUpdateEmployee(employee) {
        <td>${employee.skills.join(", ")}</td>
        <td>${employee.salary}</td>
        <td>${employee.dob}</td>
-       <td><button class="btnJS deleteBtn" onclick="deleteEmployee(${employee.id})">Delete</button> <button class="btnJS updateBtn" onclick="updateEmployee(${employee.id})">Update</button></td>
+       <td><button class="btnJS deleteBtn" onclick="deleteEmployee(${
+         employee.id
+       })">Delete</button> <button class="btnJS updateBtn" onclick="updateEmployee(${
+      employee.id
+    })">Update</button></td>
     `;
-    updateLocalStorage();
   }
-
-  updateAdvanceTable();
 }
 
-function updateLocalStorage() {
-  const tableBody = document.getElementById("tableBody");
-  const employees = [];
-  tableBody.querySelectorAll("tr").forEach((row) => {
-    const id = row.cells[0].textContent;
-    const name = row.cells[1].textContent;
-    const skills = row.cells[2].textContent.split(", ");
-    const salary = row.cells[3].textContent;
-    const dob = row.cells[4].textContent;
-    employees.push({ id, name, skills, salary, dob });
-  });
+function updateLocalStorage(employee) {
+  let employees = JSON.parse(localStorage.getItem("employees")) || [];
+  const index = employees.findIndex((emp) => emp.id === employee.id.toString());
+
+  const updatedEmployee = {
+    id: employee.id.toString(),
+    name: employee.name,
+    skills: employee.skills,
+    salary: employee.salary,
+    dob: employee.dob,
+  };
+
+  if (index !== -1) {
+    employees[index] = updatedEmployee;
+  } else {
+    employees.push(updatedEmployee);
+  }
+
   localStorage.setItem("employees", JSON.stringify(employees));
+
+  addOrUpdateEmployee(updatedEmployee);
+  clearForm();
+  updateAdvanceTable();
 }
 
 function loadFromLocalStorage() {
   const employees = JSON.parse(localStorage.getItem("employees")) || [];
   employees.forEach((employee) => {
-    addOrUpdateEmployee(employee);
+    updateLocalStorage(employee);
   });
 }
 
@@ -169,18 +180,21 @@ function clearForm() {
 function deleteEmployee(id) {
   const tableBody = document.getElementById("tableBody");
   const tableRows = tableBody.querySelectorAll("tr");
+  let employees = JSON.parse(localStorage.getItem("employees")) || [];
+
   tableRows.forEach((row, index) => {
     if (row.cells[0].textContent === id.toString()) {
       tableBody.deleteRow(index);
-      updateLocalStorage();
+      employees = employees.filter((emp) => emp.id !== id.toString());
+      localStorage.setItem("employees", JSON.stringify(employees));
     }
   });
+
   clearForm();
   updateAdvanceTable();
 }
 
 function updateEmployee(id) {
-  clearForm();
   const tableBody = document.getElementById("tableBody");
   const tableRows = tableBody.querySelectorAll("tr");
 
@@ -215,31 +229,43 @@ function updateEmployeeData() {
   const salary = document.getElementById("salary").value;
   const dob = document.getElementById("dob").value;
 
-  if (name && salary && dob) {
-    const employee = {
-      id: id,
-      name: name,
-      skills: skills,
-      salary: salary,
-      dob: dob,
-    };
+  let employees = JSON.parse(localStorage.getItem("employees")) || [];
+  const index = employees.findIndex((emp) => emp.id === id);
+  if (index !== -1) {
+    const valid = validateForm();
+    if (valid) {
+      employees[index].name = name;
+      employees[index].skills = skills;
+      employees[index].salary = salary;
+      employees[index].dob = dob;
 
-    addOrUpdateEmployee(employee);
-    clearForm();
+      localStorage.setItem("employees", JSON.stringify(employees));
 
-    document.getElementById("headingInsertOrUpdate").innerHTML =
-      "<u>Registration Form</u>";
-    document.getElementById("btn1").style.display = "inline";
-    document.getElementById("btnClearinsert").style.display = "inline";
-    document.getElementById("btnUpdate").style.display = "none";
-    document.getElementById("btnInsert").style.display = "none";
+      addOrUpdateEmployee(employees[index]);
+      clearForm();
+
+      document.getElementById("headingInsertOrUpdate").innerHTML =
+        "<u>Registration Form</u>";
+      document.getElementById("btn1").style.display = "inline";
+      document.getElementById("btnClearinsert").style.display = "inline";
+      document.getElementById("btnUpdate").style.display = "none";
+      document.getElementById("btnInsert").style.display = "none";
+
+      location.reload();
+    } else {
+      console.error("Validation failed. Cannot update employee.");
+    }
+  } else {
+    console.error("Employee not found for update");
   }
 }
 
-function insertEmployee() {
+function insertEmployeeDataPage() {
   clearForm();
-  document.getElementById("headingInsertOrUpdate").innerHTML ="<u>Registration Form</u>";
+  document.getElementById("headingInsertOrUpdate").innerHTML =
+    "<u>Registration Form</u>";
   document.getElementById("btn1").style.display = "inline";
+  document.getElementById("btnClearinsert").style.display = "inline";
   document.getElementById("btnUpdate").style.display = "none";
   document.getElementById("btnInsert").style.display = "none";
 }
@@ -286,7 +312,5 @@ function updateAdvanceTable() {
     actionCell.innerHTML = tableBody.rows[i].cells[5].innerHTML;
   }
 }
-
-
 
 document.addEventListener("DOMContentLoaded", loadFromLocalStorage);
